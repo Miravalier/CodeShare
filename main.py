@@ -33,7 +33,7 @@ class LoginRequest(BaseModel):
 @app.post("/api/login")
 async def login(request: LoginRequest):
     # Find the requested user by username
-    user = db.users_by_name[request.username]
+    user: Optional[User] = db.users_by_name[request.username]
     if not user:
         raise JsonError("invalid username or password")
 
