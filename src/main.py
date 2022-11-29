@@ -10,7 +10,6 @@ from pydantic import BaseModel
 from database import db
 from utils import random_id
 from hmac import compare_digest
-from typing import Optional
 
 
 BASE_URL = os.environ.get("BASE_URL", "")
