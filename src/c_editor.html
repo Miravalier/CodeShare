@@ -56,6 +56,11 @@
             padding: 2px;
         }
 
+        .result {
+            font-family: monospace;
+            color: white;
+        }
+
         .button-row {
             display: flex;
             flex-flow: row nowrap;
@@ -149,7 +154,10 @@
                     contents: c_code,
                 });
                 resultsContainer.innerHTML = "";
-                resultsContainer.appendChild(document.createTextNode(response));
+                const result = document.createElement("div");
+                result.classList = "result";
+                result.appendChild(document.createTextNode(JSON.stringify(response)));
+                resultsContainer.appendChild(result);
             });
         }
     </script>
