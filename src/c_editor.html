@@ -33,8 +33,6 @@
             height: 100%;
             display: hidden;
             flex-flow: column nowrap;
-            justify-content: center;
-            align-items: center;
         }
 
         #code-section {
@@ -42,16 +40,19 @@
             display: flex;
             flex-flow: row nowrap;
             width: 100%;
+            overflow: hidden;
         }
 
         #firepad-container {
             flex: 1;
             height: 100%;
+            overflow: auto;
         }
 
         #results-container {
             flex: 1;
             height: 100%;
+            overflow: auto;
             border-left: solid #424036 1px;
             padding: 2px;
         }
