@@ -1,0 +1,16 @@
+version: "3.5"
+
+networks:
+    codeshare:
+        external: false
+
+services:
+    server:
+        build: .
+        container_name: nonsense_server
+        networks:
+            - codeshare
+        volumes:
+            - /var/codeshare:/data
+        ports:
+            - "${HTTP_PORT}:80"
