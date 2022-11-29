@@ -153,10 +153,13 @@
                     document_id: documentId,
                     contents: c_code,
                 });
+                const output = response.output;
+                delete response.output;
                 resultsContainer.innerHTML = "";
                 const result = document.createElement("div");
                 result.classList = "result";
                 result.appendChild(document.createTextNode(JSON.stringify(response)));
+                result.appendChild(document.createTextNode(output));
                 resultsContainer.appendChild(result);
             });
         }
