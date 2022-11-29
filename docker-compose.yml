@@ -7,7 +7,7 @@ networks:
 services:
     server:
         build: .
-        container_name: nonsense_server
+        container_name: codeshare_server
         networks:
             - codeshare
         volumes:
