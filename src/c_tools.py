@@ -17,6 +17,8 @@ def compile(c_contents: str) -> Tuple[bool, bytes, Path]:
         return True, output, exe_path
     except subprocess.CalledProcessError as error:
         return False, error.output, exe_path
+    except subprocess.TimeoutExpired as error:
+        return False, b"Compilation killed by timeout!", exe_path
 
 
 def run(exe_path: Path) -> Tuple[bool, bytes]:
@@ -25,3 +27,5 @@ def run(exe_path: Path) -> Tuple[bool, bytes]:
         return True, output
     except subprocess.CalledProcessError as error:
         return False, error.output
+    except subprocess.TimeoutExpired as error:
+        return False, b"Process killed by timeout!"
