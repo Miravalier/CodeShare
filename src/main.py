@@ -13,7 +13,7 @@ from hmac import compare_digest
 
 
 BASE_URL = os.environ.get("BASE_URL", "")
-ADMIN_HASH = hashlib.sha256(os.environ.get("ADMIN_TOKEN", "").encode())
+ADMIN_HASH = hashlib.sha256(os.environ.get("ADMIN_TOKEN", "").encode()).digest()
 
 
 app = FastAPI()
@@ -37,7 +37,7 @@ class CListRequest(BaseModel):
 
 @app.post("/list/c")
 async def list_c(request: CListRequest):
-    request_hash = hashlib.sha512(request.admin_token.encode())
+    request_hash = hashlib.sha512(request.admin_token.encode()).digest()
     if not compare_digest(ADMIN_HASH, request_hash):
         raise JsonError("Invalid Admin Key")
     if not db.documents.c:
@@ -51,7 +51,7 @@ class CCreateRequest(BaseModel):
 
 @app.post("/create/c")
 async def create_c(request: CCreateRequest):
-    request_hash = hashlib.sha512(request.admin_token.encode())
+    request_hash = hashlib.sha512(request.admin_token.encode()).digest()
     if not compare_digest(ADMIN_HASH, request_hash):
         raise JsonError("Invalid Admin Key")
     if not db.documents.c:
