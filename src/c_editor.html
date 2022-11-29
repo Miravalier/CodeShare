@@ -108,6 +108,13 @@
             return replyData;
         }
 
+        function resultElement(content) {
+            const result = document.createElement("pre");
+            result.classList = "result";
+            result.appendChild(document.createTextNode(content));
+            return result;
+        }
+
         function init() {
             const documentId = "%{document_id}";
             const appContainer = document.querySelector("#app-container");
@@ -156,11 +163,8 @@
                 const output = response.output;
                 delete response.output;
                 resultsContainer.innerHTML = "";
-                const result = document.createElement("div");
-                result.classList = "result";
-                result.appendChild(document.createTextNode(JSON.stringify(response)));
-                result.appendChild(document.createTextNode(output));
-                resultsContainer.appendChild(result);
+                resultsContainer.appendChild(resultElement(JSON.stringify(response)));
+                resultsContainer.appendChild(resultElement(output));
             });
         }
     </script>
