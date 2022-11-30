@@ -179,7 +179,7 @@
 
             //// Listen for compile events from other users
             let ws_prefix = (window.location.protocol === "https:" ? "wss:" : "ws:");
-            const ws = new WebSocket(`${ws_prefix}//${window.location.host}/ws/c/${documentId}`);
+            const ws = new WebSocket(`${ws_prefix}//${window.location.host}/subscribe/c/${documentId}`);
             ws.onmessage = function (event) {
                 const data = JSON.parse(event.data);
                 AddResult(data);
