@@ -93,9 +93,9 @@ async def run_c(request: CRunRequest):
     compile_success, output, exe_path = await c_tools.compile(request.contents)
     if compile_success:
         run_success, output = await c_tools.run(exe_path)
-        response = {"status": "success", "compile": True, "run": run_success, "output": output}
+        response = {"status": "success", "compile": True, "run": run_success, "output": output.decode()}
     else:
-        response = {"status": "success", "compile": False, "run": False, "output": output}
+        response = {"status": "success", "compile": False, "run": False, "output": output.decode()}
 
     for websocket in tuple(DOCUMENT_SUBSCRIBERS[request.document_id]):
         try:
