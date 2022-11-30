@@ -109,7 +109,16 @@
             return replyData;
         }
 
-        function resultElement(content) {
+        function AddResult(response) {
+            const resultsContainer = document.querySelector("#results-container");
+            const output = response.output;
+            delete response.output;
+            resultsContainer.innerHTML = "";
+            resultsContainer.appendChild(ResultElement(JSON.stringify(response)));
+            resultsContainer.appendChild(ResultElement(output));
+        }
+
+        function ResultElement(content) {
             const result = document.createElement("pre");
             result.classList = "result";
             result.appendChild(document.createTextNode(content));
@@ -155,25 +164,29 @@
             const firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
                 defaultText: '#include <stdio.h>\n\nint main(int argc, char **argv) {\n  printf("Hello, world\\n");\n}'
             });
-
             const watermark = document.querySelector(".firepad a.powered-by-firepad");
             watermark.remove();
 
-            const resultsContainer = document.querySelector("#results-container");
-
+            //// Hook up compile button
             const compileButton = document.querySelector("button#compile");
             compileButton.addEventListener("click", async ev => {
                 const c_code = firepad.getText();
-                const response = await ApiRequest("/run/c", {
+                ApiRequest("/run/c", {
                     document_id: documentId,
                     contents: c_code,
                 });
-                const output = response.output;
-                delete response.output;
-                resultsContainer.innerHTML = "";
-                resultsContainer.appendChild(resultElement(JSON.stringify(response)));
-                resultsContainer.appendChild(resultElement(output));
             });
+
+            //// Listen for compile events from other users
+            let ws_prefix = (window.location.protocol === "https:" ? "wss:" : "ws:");
+            const ws = new WebSocket(`${ws_prefix}//${window.location.host}/ws/c/${documentId}`);
+            ws.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+                AddResult(data);
+            };
+            const heartbeatInterval = setInterval(() => {
+                ws.send("heartbeat");
+            }, 5000);
         }
     </script>
 </body>
